@@ -1,16 +1,21 @@
 package com.example.srgreen.webviews;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
     WebView navegador;
     ProgressDialog prgDialog;
+    Button btnStop, btnPrevious, btnNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +24,25 @@ public class MainActivity extends AppCompatActivity {
         navegador = (WebView) findViewById(R.id.webkit);
         navegador.getSettings().setJavaScriptEnabled(true);
         navegador.loadUrl("http://www.7towns4europe.eu");
+
+        prgDialog = new ProgressDialog(this);
+        prgDialog.setMessage("Downloading the web page. Please wait...");
+        navegador.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverriderUrlLoading(WebView view, String url) {
+                return false;
+            }
+
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                prgDialog.show();
+            }
+
+            public void onPageFinished(WebView view, String url) {
+                prgDialog.hide();
+            }
+        });
+        btnStop = (Button) findViewById(R.id.btnStop);
+        btnPrevious = (Button) findViewById(R.id.btnPrevious);
+        btnNext = (Button) findViewById(R.id.btnNext);
     }
 
     @Override
@@ -41,5 +65,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    public void stopCarregaPagina(View view) {
+        navegador.stopLoading();
+    }
+
+    public void goPreviousPage(View view) {
+        navegador.goBack();
+    }
+
+    public void goNextPage(View view) {
+        navegador.goForward();
     }
 }

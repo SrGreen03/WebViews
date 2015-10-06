@@ -2,5 +2,10 @@
     <string name="app_name">WebViews</string>
 
     <string name="hello_world">Hello world!</string>
+
+    <string name="btn_stop">Stop</string>
+    <string name="btn_previous">Previous</string>
+    <string name="btn_next">Next</string>
+
     <string name="action_settings">Settings</string>
 </resources>
