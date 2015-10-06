@@ -27,17 +27,30 @@ public class MainActivity extends AppCompatActivity {
 
         prgDialog = new ProgressDialog(this);
         prgDialog.setMessage("Downloading the web page. Please wait...");
+
+        //Improved buttons
         navegador.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverriderUrlLoading(WebView view, String url) {
+            public boolean shouldOverriderUrlLoading (WebView view, String url) {
                 return false;
             }
-
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            public void onPageStarted (WebView view, String url, Bitmap favicon) {
                 prgDialog.show();
+                btnStop.setEnabled(true);
             }
-
-            public void onPageFinished(WebView view, String url) {
+            public void onPageFinished (WebView view, String url) {
                 prgDialog.hide();
+                btnStop.setEnabled(false);
+                if (view.canGoBack()) {
+                    btnPrevious.setEnabled(true);
+                }
+                else {
+                    btnPrevious.setEnabled(false);
+                }
+                if (view.canGoForward()) {
+                    btnNext.setEnabled(true);
+                } else {
+                    btnNext.setEnabled(false);
+                }
             }
         });
         btnStop = (Button) findViewById(R.id.btnStop);
